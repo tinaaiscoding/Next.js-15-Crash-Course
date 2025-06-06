@@ -1,15 +1,20 @@
-'use client'
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
+import { useAuth, useUser } from '@clerk/nextjs';
 
 export const Counter = () => {
- console.log('Counter component') 
+  // const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, isSignedIn, user } = useUser();
+  console.log('Counter component');
 
- const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
- return (
-  <button onClick={() => setCount(count + 1)}>
-    Clicked {count} times
-  </button>
- )
-}
+  if (!isLoaded || !isSignedIn) {
+    return null;
+  }
+
+  return (
+    <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
+  );
+};
